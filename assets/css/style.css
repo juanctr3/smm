@@ -1,1 +1,106 @@
+/* --- DISEÑO UI/UX SUPERIOR (assets/css/style.css) --- */
 
+/* 1. Reset Básico y Tipografía */
+:root {
+    --color-principal: #007bff; /* Azul Eléctrico - Confianza y Tecnología */
+    --color-acento: #28a745;   /* Verde - Éxito/Completado */
+    --color-fondo: #f8f9fa;    /* Fondo Limpio */
+    --color-texto: #333;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Inter', sans-serif; /* Usaremos una fuente moderna y legible */
+    line-height: 1.6;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+}
+
+/* 2. Navegación Limpia y Fija */
+.header {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-link {
+    text-decoration: none;
+    color: var(--color-texto);
+    margin-left: 20px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+.nav-link:hover {
+    color: var(--color-principal);
+}
+
+/* 3. Botones de Acción (Foco en Compra y WhatsApp) */
+.btn-primary {
+    background-color: var(--color-principal);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* 4. Módulo de Servicios (El Flujo de 3 Clics) */
+.service-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+.service-card:hover {
+    transform: translateY(-5px);
+}
+.service-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+/* 5. Botón WhatsApp Flotante (UX Rápida) */
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #25d366; /* Color de WhatsApp */
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 60px;
+    font-size: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+    cursor: pointer;
+}
+
+/* Estilos para el formulario de pedido (para un diseño intuitivo) */
+.form-group label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 5px;
+}
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+/* ... Más estilos para el Admin Panel, Reseñas, etc. ... */
