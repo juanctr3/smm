@@ -1,0 +1,45 @@
+# Activar el motor de reescritura para OpenLiteSpeed/Apache
+RewriteEngine On
+RewriteBase /
+
+# =================================================================
+# 1. ARCHIVOS DE ÍNDICE (CRÍTICO para la carga inicial)
+# =================================================================
+# Define la prioridad de los archivos de inicio.
+DirectoryIndex index.php index.html
+
+# =================================================================
+# 2. SEGURIDAD y RENDIMIENTO
+# =================================================================
+# Prevenir listado de archivos de carpetas (seguridad)
+Options -Indexes
+
+# Forzar HTTPS (Mejora SEO y Confianza)
+# Redirige todo el tráfico HTTP a HTTPS (Puerto 443)
+# Esta regla es vital para que los motores de búsqueda solo indexen la versión segura.
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# =================================================================
+# 3. URLs LIMPIAS Y AMIGABLES (SEO)
+# =================================================================
+# Regla: Ocultar la extensión .php de los archivos principales
+# Esto hace que URLs como 'dominio.com/login' funcionen, reescribiendo internamente a 'login.php'
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([a-zA-Z0-9_-]+)$ $1.php [L]
+
+# 4. TRATAMIENTO DE ERRORES (Opcional, pero recomendado)
+# Si deseas que los errores 404 sean manejados por una página PHP personalizada:
+# ErrorDocument 404 /404.php
+
+# =================================================================
+# AJUSTE PARA CYBERPANEL/OPENLITESPEED
+# =================================================================
+# Si encuentras que las reglas de reescritura fallan,
+# a veces CyberPanel/OLS requiere esta configuración:
+<IfModule Litespeed>
+    # Esto asegura que las reglas de reescritura se apliquen correctamente en Litespeed.
+    RewriteOptions inherit
+</IfModule>
