@@ -50,7 +50,7 @@ if ($stmt_pedidos = $conn->prepare($sql_pedidos)) {
     $stmt_pedidos->close();
 }
 
-$conn->close();
+// ¡LÍNEA $conn->close(); ELIMINADA aquí!
 ?>
 
 <!DOCTYPE html>
@@ -125,7 +125,9 @@ $conn->close();
                         </td>
                         <td style="text-align: center;"><?php echo date("Y-m-d", strtotime($row['fecha_creacion'])); ?></td>
                         <td>
-                            <?php if ($row['estado'] == 'completado' && $row['review_count'] == 0): ?>
+                            <?php 
+                            // Nota: La columna 'review_count' viene del SELECT, no de la BD
+                            if ($row['estado'] == 'completado' && $row['review_count'] == 0): ?>
                                 <a href="review_form.php?pedido_id=<?php echo $row['id']; ?>" class="nav-link" style="color: gold; font-weight: bold;">Calificar ⭐</a>
                             <?php elseif ($row['estado'] == 'completado'): ?>
                                 <span style="color: green;">Calificado</span>

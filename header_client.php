@@ -35,11 +35,27 @@ if (isset($conn) && $conn->ping()) {
     }
     $stmt->close();
 }
+// Se asegura de obtener el nombre del sitio para la barra de navegación.
 $site_name = get_config('SITE_NAME');
+$site_name = get_config('SITE_NAME');
+$logo_url = get_config('LOGO_URL'); // Obtener la URL del logo
 ?>
 
 <header class="header">
-    <div class="logo"><?php echo htmlspecialchars($site_name); ?></div>
+    <a href="index.php" class="logo">
+        <?php 
+        $site_name = get_config('SITE_NAME');
+        $logo_url = get_config('LOGO_URL'); // Debe contener algo como: assets/img/logo.webp
+        ?>
+
+        <?php if (!empty($logo_url) && $logo_url !== 'Error Config'): ?>
+            <img src="<?php echo htmlspecialchars($logo_url); ?>" 
+                 alt="Logo de <?php echo htmlspecialchars($site_name); ?> - SMM Panel" 
+                 style="height: 40px; width: auto; max-width: 100%;">
+        <?php else: ?>
+            <?php echo htmlspecialchars($site_name); ?>
+        <?php endif; ?>
+    </a>
     <nav>
         
         <?php foreach ($menu_items_header as $item): ?>

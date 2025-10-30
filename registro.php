@@ -8,6 +8,19 @@ require_once 'includes/db_connect.php';
 // Incluir la configuración global (para el nombre del sitio)
 require_once 'includes/config_global.php'; 
 
+// Lista de códigos de país comunes (Formato: Nombre => Código)
+$country_codes = [
+    'Colombia (+57)' => '+57',
+    'México (+52)' => '+52',
+    'España (+34)' => '+34',
+    'Argentina (+54)' => '+54',
+    'Chile (+56)' => '+56',
+    'Perú (+51)' => '+51',
+    'Ecuador (+593)' => '+593',
+    'EE. UU. / Canadá (+1)' => '+1',
+    'Otro' => '' // Opción para ingresar el código manualmente
+];
+
 // Redirigir si el usuario ya está logueado
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
     if ($_SESSION["rol"] === 'admin') {
@@ -26,13 +39,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recolección y saneamiento de datos
     $nombre = trim($_POST['nombre']);
     $email = trim($_POST['email']);
-    $telefono = trim($_POST['telefono']);
+    $codigo_pais = trim($_POST['codigo_pais']); // Nuevo
+    $numero_telefono = trim($_POST['numero_telefono']); // Nuevo
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
+    // Combinar el código de país y el número
+    $telefono = $codigo_pais . $numero_telefono;
+
     // Validación de datos básica
-    if (empty($nombre) || empty($email) || empty($password) || empty($confirm_password)) {
-        $error_message = "Todos los campos son obligatorios.";
+    if (empty($nombre) || empty($email) || empty($password) || empty($confirm_password) || empty($numero_telefono) || empty($codigo_pais)) {
+        $error_message = "Todos los campos (incluyendo el número de teléfono con código de país) son obligatorios.";
     } elseif ($password !== $confirm_password) {
         $error_message = "Las contraseñas no coinciden.";
     } elseif (strlen($password) < 6) {
@@ -58,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             if ($stmt_insert->execute()) {
                 $success_message = "¡Registro exitoso! Ya puedes iniciar sesión.";
-                // Aquí podrías agregar la lógica de envío de WhatsApp con las credenciales si fuera un registro de checkout.
             } else {
                 $error_message = "Error al registrar: " . $conn->error;
             }
@@ -66,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_check->close();
     }
 }
-$conn->close(); // Cerramos la conexión a la BD aquí, antes de que termine el bloque PHP.
+// La línea $conn->close(); se mantiene eliminada de este archivo
 ?>
 
 <!DOCTYPE html>
@@ -85,6 +101,16 @@ $conn->close(); // Cerramos la conexión a la BD aquí, antes de que termine el 
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .telefono-group {
+            display: flex;
+            gap: 10px;
+        }
+        .telefono-group select {
+            flex: 1;
+        }
+        .telefono-group input {
+            flex: 2;
         }
     </style>
 </head>
@@ -115,8 +141,18 @@ $conn->close(); // Cerramos la conexión a la BD aquí, antes de que termine el 
                 </div>
                 
                 <div class="form-group">
-                    <label for="telefono">Teléfono (WhatsApp - Para Notificaciones)</label>
-                    <input type="text" name="telefono" id="telefono" placeholder="+CódigoPaísNúmero" required>
+                    <label for="numero_telefono">Teléfono (WhatsApp - Para Notificaciones)</label>
+                    <div class="telefono-group">
+                        <select name="codigo_pais" id="codigo_pais" required>
+                            <?php foreach ($country_codes as $name => $code): ?>
+                                <option value="<?php echo htmlspecialchars($code); ?>" <?php echo ($code == '+57' ? 'selected' : ''); ?>>
+                                    <?php echo htmlspecialchars($name); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <input type="text" name="numero_telefono" id="numero_telefono" placeholder="Número sin código" required>
+                    </div>
+                    <small style="display: block; margin-top: 5px; color: #6c757d;">El número de WhatsApp debe incluir el código de país. Ej: +57310xxxxxxx</small>
                 </div>
 
                 <div class="form-group">

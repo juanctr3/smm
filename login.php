@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-$conn->close(); // Cerramos la conexión a la BD
+// ¡LÍNEA $conn->close(); ELIMINADA AQUÍ!
 ?>
 
 <!DOCTYPE html>
@@ -117,6 +117,7 @@ $conn->close(); // Cerramos la conexión a la BD
                 </div>
                 
                 <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">Iniciar Sesión</button>
+                <p style="text-align: center; margin-top: 10px;"><a href="recuperar_contrasena.php" style="font-weight: bold; color: #ffc107;">¿Olvidaste tu Contraseña?</a></p>
                 <p style="text-align: center; margin-top: 15px;">¿No tienes cuenta? <a href="registro.php" style="font-weight: bold;">Regístrate aquí</a></p>
             </form>
         </div>
