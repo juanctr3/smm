@@ -1,12 +1,13 @@
 <?php
 // Guardar en: smm_panel/admin/sidebar_menu.php
-
+require_once '../includes/db_connect.php'; 
+require_once '../includes/config_global.php';
 // Esta variable obtiene el nombre del archivo actual (ej: dashboard.php)
 $current_page = basename($_SERVER['PHP_SELF']); 
 ?>
 
 <aside class="admin-sidebar">
-    <h2 style="text-align: center; margin-bottom: 30px; color: var(--color-principal);">Admin SMM Pro</h2>
+    <h2 style="text-align: center; margin-bottom: 30px; color: var(--color-principal);"><?php echo htmlspecialchars(get_config('SITE_NAME')); ?> Admin</h2>
     <div class="admin-menu">
         
         <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>">📊 Dashboard</a>
