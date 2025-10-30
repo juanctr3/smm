@@ -103,4 +103,24 @@ body {
     border-radius: 5px;
     margin-bottom: 15px;
 }
-/* ... Más estilos para el Admin Panel, Reseñas, etc. ... */
+/* Estilos para el contenedor principal que centra y limita el ancho */
+.container {
+    width: 90%; /* Ocupa el 90% del ancho del viewport */
+    max-width: 1200px; /* Límite máximo para que no se extienda */
+    margin: 0 auto; /* Centra el contenedor */
+    padding: 0 15px; /* Añadir padding para evitar que el contenido toque los bordes */
+}
+/* Ajuste para que el contenido de la cabecera también respete el ancho máximo */
+.header > div, .header > nav {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.header {
+    /* Mantenemos el fondo blanco de extremo a extremo */
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
